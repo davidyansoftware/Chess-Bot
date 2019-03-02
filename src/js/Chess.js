@@ -1,7 +1,9 @@
 import { Board } from "./Board";
 
 let domBoard = document.getElementById("board");
-let board = new Board(domBoard);
+let whiteMoves = document.getElementById("whiteMoves");
+let blackMoves = document.getElementById("blackMoves");
+let board = new Board(domBoard, whiteMoves, blackMoves);
 
 window.revert = function() {
   board.revert();

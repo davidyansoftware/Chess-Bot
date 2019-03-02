@@ -140,7 +140,9 @@ class Move {
     }
 
     if (agentMove) {
-      console.log(this.algebraicNotation());
+      //console.log(this.algebraicNotation());
+      this.piece.player.appendMove(this.algebraicNotation());
+
       this.piece.tile.board.moves.push(this);
       this.piece.board.endTurn();
 

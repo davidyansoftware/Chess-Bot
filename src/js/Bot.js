@@ -3,8 +3,8 @@ import { Pieces } from "./Pieces";
 import swal from "sweetalert";
 
 class Bot extends Agent {
-  constructor(board, color) {
-    super(board, color);
+  constructor(board, color, moveList) {
+    super(board, color, moveList);
   }
 
   startTurn() {

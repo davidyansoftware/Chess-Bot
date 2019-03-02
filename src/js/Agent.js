@@ -2,9 +2,10 @@ import { Pieces } from "./Pieces";
 import swal from "sweetalert";
 
 class Agent {
-  constructor(board, color) {
+  constructor(board, color, moveList) {
     this.board = board;
     this.color = color;
+    this.moveList = moveList;
 
     //TODO maybe replace this with notation object
     this.pieces = [];
@@ -33,6 +34,14 @@ class Agent {
 
     this.king = new Pieces.King(board, this, 4, color.backRow, qRook, kRook);
     this.addPiece(this.king);
+  }
+
+  appendMove(move) {
+    let li = document.createElement("li");
+    let text = document.createTextNode(move);
+    li.appendChild(text);
+    this.moveList.appendChild(li);
+    return li;
   }
 
   startTurn() {

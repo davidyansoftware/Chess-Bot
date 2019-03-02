@@ -46,7 +46,7 @@ function invalidMove(move) {
 }
 
 class Board {
-  constructor(domBoard) {
+  constructor(domBoard, whiteMoves, blackMoves) {
     this.grid = [];
     for (let i = 0; i < GRID_SIZE; i++) {
       let domRow = document.createElement("tr");
@@ -64,8 +64,8 @@ class Board {
 
     //TODO these vars should be handled outside of board
     //TODO also outside the board, show turn, check status, timers
-    let white = new Agent(this, WHITE);
-    let black = new Bot(this, BLACK);
+    let white = new Agent(this, WHITE, whiteMoves);
+    let black = new Bot(this, BLACK, blackMoves);
     white.opponent = black;
     black.opponent = white;
 
