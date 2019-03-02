@@ -215,7 +215,10 @@ class Board {
     this.currPlayer.opponent.checkGameState();
     this.currPlayer = this.currPlayer.opponent;
 
-    this.currPlayer.startTurn();
+    // forces redraw of the dom before AI determines moves
+    setTimeout(() => {
+      this.currPlayer.startTurn();
+    }, 0);
   }
 }
 
