@@ -112,10 +112,6 @@ class Move {
     let piece = this.piece.tile.removePiece();
     let takenPiece = this.take ? this.take.tile.removePiece() : null;
     piece.player.opponent.removePiece(takenPiece);
-    if (agentMove) {
-      console.log(piece);
-      console.log(takenPiece);
-    }
 
     let moveTo = this.piece.board.getTile(this.x, this.y);
     moveTo.addPiece(piece);
@@ -141,7 +137,7 @@ class Move {
 
     if (agentMove) {
       //console.log(this.algebraicNotation());
-      this.piece.player.appendMove(this.algebraicNotation());
+      this.li = this.piece.player.appendMove(this.algebraicNotation());
 
       this.piece.tile.board.moves.push(this);
       this.piece.board.endTurn();
@@ -153,6 +149,10 @@ class Move {
   }
 
   revert() {
+    if (this.li) {
+      this.li.remove();
+    }
+
     this.piece.tile.removePiece();
 
     let moveFrom = this.piece.board.getTile(this.prevX, this.prevY);
