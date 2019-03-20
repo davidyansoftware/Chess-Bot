@@ -1,6 +1,4 @@
 import { Agent } from "./Agent";
-import { Pieces } from "./Pieces";
-import swal from "sweetalert";
 
 class Bot extends Agent {
   constructor(board, color, moveList) {
@@ -17,16 +15,16 @@ class Bot extends Agent {
   getBestMove() {
     let legalMoves = this.getLegalMoves();
     let bestMoves = [];
-    let bestValue = Number.NEGATIVE_INFINITY;
+    let bestValue = Number.POSITIVE_INFINITY;
 
     for (let i = 0; i < legalMoves.length; i++) {
       let move = legalMoves[i];
       move.execute();
-      let evaluation = this.minimax(2, this.color.evaluationModifier);
+      let evaluation = this.minimax(2, false);
       console.log(move.algebraicNotation() + " " + evaluation);
       move.revert();
 
-      if (evaluation > bestValue) {
+      if (evaluation < bestValue) {
         bestValue = evaluation;
         bestMoves = [move];
       } else if (evaluation === bestValue) {
@@ -36,19 +34,40 @@ class Bot extends Agent {
     return bestMoves[Math.floor(Math.random() * bestMoves.length)];
   }
 
-  minimax(depth, evaluationModifier) {
+  minimax(depth, maximizing) {
     if (depth === 0) {
-      return this.board.evaluate() * evaluationModifier;
+      return this.board.evaluate();
     }
 
     let legalMoves = this.getLegalMoves();
+
+    if (maximizing) {
+      let bestValue = Number.NEGATIVE_INFINITY;
+      for (let move of legalMoves) {
+        move.execute();
+        let newValue = this.minimax(depth - 1, !maximizing);
+        bestValue = Math.max(bestValue, newValue);
+        move.revert();
+      }
+      return bestValue;
+    } else {
+      let bestValue = Number.POSITIVE_INFINITY;
+      for (let move of legalMoves) {
+        move.execute();
+        let newValue = this.minimax(depth - 1, !maximizing);
+        bestValue = Math.min(bestValue, newValue);
+        move.revert();
+      }
+      return bestValue;
+    }
+
+    /*
     let bestValue = Number.NEGATIVE_INFINITY;
     for (let move of legalMoves) {
       move.execute();
-      let newValue = this.minimax(depth - 1, -evaluationModifier);
+      let newValue = this.minimax(depth - 1, !maximizing);
       bestValue = Math.max(bestValue, newValue);
       move.revert();
-      /*
       if (evaluationModifier > 0) {
         alpha = Math.max(alpha, bestValue);
         if (beta <= alpha) {
@@ -60,9 +79,9 @@ class Bot extends Agent {
           return bestValue;
         }
       }
-      */
     }
     return bestValue;
+    */
   }
 }
 
