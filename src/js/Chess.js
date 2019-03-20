@@ -25,9 +25,6 @@ board.parseMove("g4");
 board.parseMove("xc3");
 board.parseMove("g5");
 board.parseMove("xd2+");
-
-console.log(board.getTile(3, 1).piece);
-console.log(board.getTile(3, 0).piece);
 */
 
 // king side castle

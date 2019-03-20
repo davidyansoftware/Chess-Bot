@@ -153,8 +153,6 @@ class Board {
         return;
       } else {
         this.selectTile(tile);
-        console.log(tile.piece.getExpandedMoves());
-        console.log(tile.piece.getLegalMoves());
       }
     } else {
       let move = this.isValidMove(tile.x, tile.y);

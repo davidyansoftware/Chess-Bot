@@ -136,7 +136,6 @@ class Move {
     }
 
     if (agentMove) {
-      //console.log(this.algebraicNotation());
       this.li = this.piece.player.appendMove(this.algebraicNotation());
 
       this.piece.tile.board.moves.push(this);
