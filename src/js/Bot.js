@@ -15,12 +15,18 @@ class Bot extends Agent {
   getBestMove() {
     let legalMoves = this.getLegalMoves();
     let bestMoves = [];
+    //TODO generalize this to account for white or black bot
     let bestValue = Number.POSITIVE_INFINITY;
 
     for (let i = 0; i < legalMoves.length; i++) {
       let move = legalMoves[i];
       move.execute();
-      let evaluation = this.minimax(2, false);
+      let evaluation = this.minimax(
+        2,
+        true, // true here because we're checking white's moves
+        Number.NEGATIVE_INFINITY,
+        Number.POSITIVE_INFINITY
+      );
       console.log(move.algebraicNotation() + " " + evaluation);
       move.revert();
 
@@ -34,7 +40,7 @@ class Bot extends Agent {
     return bestMoves[Math.floor(Math.random() * bestMoves.length)];
   }
 
-  minimax(depth, maximizing) {
+  minimax(depth, maximizing, alpha, beta) {
     if (depth === 0) {
       return this.board.evaluate();
     }
@@ -45,43 +51,29 @@ class Bot extends Agent {
       let bestValue = Number.NEGATIVE_INFINITY;
       for (let move of legalMoves) {
         move.execute();
-        let newValue = this.minimax(depth - 1, !maximizing);
+        let newValue = this.minimax(depth - 1, !maximizing, alpha, beta);
         bestValue = Math.max(bestValue, newValue);
         move.revert();
+        alpha = Math.max(alpha, bestValue);
+        if (beta <= alpha) {
+          return bestValue;
+        }
       }
       return bestValue;
     } else {
       let bestValue = Number.POSITIVE_INFINITY;
       for (let move of legalMoves) {
         move.execute();
-        let newValue = this.minimax(depth - 1, !maximizing);
+        let newValue = this.minimax(depth - 1, !maximizing, alpha, beta);
         bestValue = Math.min(bestValue, newValue);
         move.revert();
-      }
-      return bestValue;
-    }
-
-    /*
-    let bestValue = Number.NEGATIVE_INFINITY;
-    for (let move of legalMoves) {
-      move.execute();
-      let newValue = this.minimax(depth - 1, !maximizing);
-      bestValue = Math.max(bestValue, newValue);
-      move.revert();
-      if (evaluationModifier > 0) {
-        alpha = Math.max(alpha, bestValue);
-        if (beta <= alpha) {
-          return bestValue;
-        }
-      } else {
         beta = Math.min(beta, bestValue);
         if (beta <= alpha) {
           return bestValue;
         }
       }
+      return bestValue;
     }
-    return bestValue;
-    */
   }
 }
 
