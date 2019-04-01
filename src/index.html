@@ -2,14 +2,29 @@
 
 <table id="board"></table>
 
-<div class="moveList">
-  White
-  <ul id="whiteMoves"></ul>
-</div>
+<div id="sideBar">
+  Search Depth:
+  <select id="searchDepth">
+    <option value="1">1</option>
+    <option value="2" selected>2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+  </select>
 
-<div class="moveList">
-  Black
-  <ul id="blackMoves"></ul>
+  <br />
+  Alpha-Beta Pruning:
+  <input id="abPrune" type="checkbox" checked />
+
+  <br />
+  <div class="moveList">
+    White
+    <ul id="whiteMoves"></ul>
+  </div>
+  <div class="moveList">
+    Black
+    <ul id="blackMoves"></ul>
+  </div>
 </div>
 
 <script src="js/Chess.js"></script>

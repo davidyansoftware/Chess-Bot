@@ -18,12 +18,18 @@ class Bot extends Agent {
     //TODO generalize this to account for white or black bot
     let bestValue = Number.POSITIVE_INFINITY;
 
+    let searchDepth = document.getElementById("searchDepth").value;
+    let prune = document.getElementById("abPrune").checked;
+    console.log("search depth: " + searchDepth);
+    console.log("alpha-beta prune: " + prune);
+
     for (let i = 0; i < legalMoves.length; i++) {
       let move = legalMoves[i];
       move.execute();
       let evaluation = this.minimax(
-        2,
+        searchDepth,
         true, // true here because we're checking white's moves
+        prune,
         Number.NEGATIVE_INFINITY,
         Number.POSITIVE_INFINITY
       );
@@ -40,7 +46,7 @@ class Bot extends Agent {
     return bestMoves[Math.floor(Math.random() * bestMoves.length)];
   }
 
-  minimax(depth, maximizing, alpha, beta) {
+  minimax(depth, maximizing, prune, alpha, beta) {
     if (depth === 0) {
       return this.board.evaluate();
     }
@@ -54,9 +60,11 @@ class Bot extends Agent {
         let newValue = this.minimax(depth - 1, !maximizing, alpha, beta);
         bestValue = Math.max(bestValue, newValue);
         move.revert();
-        alpha = Math.max(alpha, bestValue);
-        if (beta <= alpha) {
-          return bestValue;
+        if (prune) {
+          alpha = Math.max(alpha, bestValue);
+          if (beta <= alpha) {
+            return bestValue;
+          }
         }
       }
       return bestValue;
@@ -67,9 +75,11 @@ class Bot extends Agent {
         let newValue = this.minimax(depth - 1, !maximizing, alpha, beta);
         bestValue = Math.min(bestValue, newValue);
         move.revert();
-        beta = Math.min(beta, bestValue);
-        if (beta <= alpha) {
-          return bestValue;
+        if (prune) {
+          beta = Math.min(beta, bestValue);
+          if (beta <= alpha) {
+            return bestValue;
+          }
         }
       }
       return bestValue;

@@ -41,9 +41,15 @@
   display: inline-block;
 }
 
+#sideBar {
+  display: inline-block;
+  vertical-align: top;
+  text-align: center;
+  margin: 10px;
+}
+
 .moveList {
   display: inline-block;
   vertical-align: top;
-  width: 0px;
-  margin: 50px;
+  margin: 25px;
 }
