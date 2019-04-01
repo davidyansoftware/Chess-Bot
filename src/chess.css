@@ -53,3 +53,8 @@
   vertical-align: top;
   margin: 25px;
 }
+
+ul {
+  list-style-type: none;
+  text-indent: -2em;
+}
